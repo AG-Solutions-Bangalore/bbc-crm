@@ -44,7 +44,7 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SIgnUp />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/maintenance" element={<Maintenance />} />

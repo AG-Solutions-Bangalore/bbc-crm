@@ -61,11 +61,11 @@ const AppProvider = ({ children }) => {
           navigate("/home");
         }
       } else {
-        const publicPaths = ["/", "/register", "/forget-password"];
+        const publicPaths = ["/login", "/register", "/forget-password"];
         if (publicPaths.includes(currentPath)) {
           navigate(currentPath);
         } else {
-          navigate("/");
+          navigate("/login");
         }
       }
     }
