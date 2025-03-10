@@ -82,6 +82,12 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
       roles: ["admin", "superadmin", "userType1"],
     },
     {
+      to: "/mission-vision",
+      icon: <InformationCircleIcon className="w-5 h-5 text-inherit" />,
+      text: "Mission & Vision",
+      roles: ["admin", "superadmin", "userType1"],
+    },
+    {
       to: "/portfolio",
       icon: <BriefcaseIcon className="w-5 h-5 text-inherit" />,
       text: "Portfolio",
@@ -202,7 +208,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
       ref={sidenavRef}
       className={`${sidenavTypes[sidenavType]} ${
         openSideNav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
+      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)]  w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
     >
       <div className={`relative bg-white rounded-xl`}>
         <Link to="/home" className="flex items-center justify-center p-4">
@@ -300,6 +306,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   ))}
                 </ul>
               )}
+              
             </div>
           </li>
 
@@ -326,8 +333,16 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
               </NavLink>
             </li>
           ))}
+
         </ul>
+        
       </div>
+      <div className="mt-auto pt-4 border-t border-gray-700">
+  <div className=" absolute bottom-5 w-full text-center text-sm text-gray-400">
+    <p> Updated On: March 10, 2025</p>
+ 
+  </div>
+</div>
     </aside>
   );
 };

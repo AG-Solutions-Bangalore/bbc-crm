@@ -4,7 +4,7 @@ import SignIn from "./pages/auth/SignIn";
 import SIgnUp from "./pages/auth/SIgnUp";
 import Maintenance from "./pages/maintenance/Maintenance";
 import ProtectedRoute from "./components/ProtectedRoute";
-// import ForgetPassword from "./pages/auth/ForgetPassword";
+import ForgetPassword from "./pages/auth/ForgetPassword";
 // import ChangePassword from "./pages/profile/ChangePassword";
 // import UserProfile from "./pages/dashboard/UserProfile";
 // import About from "./pages/website/About";
@@ -21,6 +21,7 @@ import NewUserView from "./pages/users/NewUserView";
 // import Feedback from "./pages/users/Feedback";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader";
+// import MissionVission from "./pages/website/MissionVission";
 // import Contact from "./pages/users/Contact";
 // const NewUserView = lazy(() => import("./pages/users/NewUserView"));
 const ShareUserById = lazy(() => import("./pages/users/ShareUserById"));
@@ -35,10 +36,11 @@ const Enquiry = lazy(() => import("./pages/website/Enquiry"));
 const About = lazy(() => import("./pages/website/About"));
 const UserProfile = lazy(() => import("./pages/dashboard/UserProfile"));
 const ChangePassword = lazy(() => import("./pages/profile/ChangePassword"));
-const ForgetPassword = lazy(() => import("./pages/auth/ForgetPassword"));
+// const ForgetPassword = lazy(() => import("./pages/auth/ForgetPassword"));
 
 const Feedback = lazy(() => import("./pages/users/Feedback"));
 const Contact = lazy(() => import("./pages/users/Contact"));
+const MissionVission = lazy(() => import("./pages/website/MissionVission"));
 
 const App = () => {
   return (
@@ -69,6 +71,18 @@ const App = () => {
               element={
                 <Suspense fallback={<Loader />}>
                   <About />
+                </Suspense>
+              }
+            />
+          }
+        />
+        <Route
+          path="/mission-vision"
+          element={
+            <ProtectedRoute
+              element={
+                <Suspense fallback={<Loader />}>
+                  <MissionVission />
                 </Suspense>
               }
             />

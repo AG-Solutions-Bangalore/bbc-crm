@@ -1,4 +1,4 @@
-import { Input, Checkbox, Button, Typography } from "@material-tailwind/react";
+import { Input, Checkbox, Button, Typography, Textarea, Card } from "@material-tailwind/react";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +13,7 @@ const SignIn = () => {
   const { isPanelUp } = useContext(ContextPanel);
   const navigate = useNavigate();
 
-  const handleSumbit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isPanelUp) {
       navigate("/maintenance");
@@ -57,6 +57,7 @@ const SignIn = () => {
 
     setLoading(false);
   };
+  
   return (
     <>
       <Toaster
@@ -75,102 +76,132 @@ const SignIn = () => {
         position="top-right"
         reverseOrder={false}
       />
-      <section className="flex flex-col lg:flex-row min-h-screen items-center ">
-        <div className="flex-1 lg:w-3/5 m-4 lg:m-12  px-4 lg:px-8">
-          <div className="relative mt-8 mb-2 mx-auto w-full max-w-md lg:w-3/4 bg-white p-8 rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-300 shadow-red-300">
-            <div className="text-center">
-              <Link to="/" className="flex items-center justify-center p-4">
-                <img src="logo.png" alt="Logo" className={`h-12 w-auto    `} />
-              </Link>
+      <div className="flex flex-col m-0 lg:flex-row h-screen">
+        {/* Left Side - Images with Animation and Background Color */}
+        <div className="hidden lg:block lg:w-[50%] xl:block xl:w-[50%] h-full bg-white">
+          {/* Container for the images */}
+          <div className="relative w-full h-full flex flex-col justify-center items-center">
+            {/* First image (top) with floating animation */}
+            <div className="w-4/5 h-2/5 mb-4" style={{
+              animation: "floatUpDown 3s ease-in-out infinite",
+            }}>
+              <img
+                src="/img/em1.png"
+                alt="Employee 1"
+                className="w-full h-full object-contain"
+              />
             </div>
-            <form
-              onSubmit={handleSumbit}
-              method="POST"
-              className="mt-8 mb-2 mx-auto w-full max-w-md lg:w-3/4"
+            
+            {/* Second image (bottom) with scale animation */}
+            <div className="w-4/5 h-2/5" style={{
+              animation: "pulse 4s ease-in-out infinite",
+            }}>
+              <img
+                src="/img/em2.png"
+                alt="Employee 2"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+          
+          {/* CSS for custom animations */}
+          <style jsx>{`
+            @keyframes floatUpDown {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-20px); }
+            }
+            
+            @keyframes pulse {
+              0%, 100% { transform: scale(1); }
+              50% { transform: scale(1.05); }
+            }
+          `}</style>
+        </div>
+        
+        {/* Right Side - Form */}
+        <div className="flex-1 flex items-center bg-pink-50/50 justify-center px-4 lg:px-8 py-12 h-full lg:w-1/2">
+          <Card className="p-8 bg-gradient-to-r border border-[#A41460] hover:shadow-2xl transition-shadow duration-300 w-full max-w-md">
+            <div className="flex justify-center mb-4">
+              <img src="logo.png" alt="Company Logo" className="w-35 h-35" />
+            </div>
+
+            <Typography
+              variant="h4"
+              className="font-bold text-center mb-8 text-[#A41460]"
             >
-              <div className="mb-6 flex flex-col gap-6">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="-mb-3 font-medium"
-                >
-                  Mobile No
-                </Typography>
+              Sign into your account
+            </Typography>
+            
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
                 <Input
-                  id="email"
+                  variant="static"
+                  label="Mobile Number *"
+                  labelProps={{ className: "!text-[#A41460]" }}
+                  placeholder="Enter your mobile number"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  size="lg"
-                  placeholder="Mobile No"
-                  className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
+                  className="bg-gray-100 text-gray-700 placeholder-gray-400"
                 />
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="-mb-3 font-medium"
-                >
-                  Password
-                </Typography>
+              </div>
+              
+              <div>
+                <div className="flex justify-between items-center">
+                  <Typography
+                    variant="small"
+                    className="text-[#A41460] font-medium"
+                  >
+                    Password *
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    className="font-medium text-[#A41460]"
+                  >
+                    <Link to="/forget-password">Forgot Password?</Link>
+                  </Typography>
+                </div>
                 <Input
-                  id="password"
+                  variant="static"
+                  type="password"
+                  placeholder="Enter your password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  size="lg"
-                  placeholder="********"
-                  className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
+                  className="bg-gray-100 text-gray-700 placeholder-gray-400"
+                  labelProps={{ className: "!text-[#A41460]" }}
                 />
               </div>
-
-              <Button
-                type="sumbit"
-                disabled={loading}
-                className="mt-6"
-                fullWidth
-              >
-                {loading ? "Checking..." : "Sign In"}
-              </Button>
-
-              <div className="flex items-center justify-between gap-2 mt-6">
+              
+              <div className="mt-8 flex justify-center">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full px-8 py-3 bg-[#A41460] hover:bg-[#802053] transition-colors duration-300"
+                >
+                  {loading ? "Checking..." : "Sign In"}
+                </Button>
+              </div>
+              
+              <div className="flex items-center justify-center gap-2 mt-6">
                 <Typography
                   variant="small"
-                  className="text-center text-blue-gray-500 font-medium "
+                  className="text-center text-blue-gray-500 font-medium"
                 >
                   Not registered?
                   <Link
                     target="blank"
                     to="https://businessboosters.club/register"
-                    className="text-gray-900 ml-1"
+                    className="text-[#A41460] ml-1"
                   >
                     Create account
                   </Link>
                 </Typography>
-                <Typography
-                  variant="small"
-                  className="font-medium text-gray-900"
-                >
-                  <Link to="/forget-password">Forgot Password</Link>
-                </Typography>
               </div>
             </form>
-          </div>
+          </Card>
         </div>
-        <div className="w-full lg:w-2/5 h-auto lg:h-full hidden  lg:block">
-          <img
-            src="/img/pattern.png"
-            className="h-full max-h-screen w-full object-cover  rounded-none"
-            alt="Sign In Background"
-          />
-        </div>
-      </section>
+      </div>
     </>
   );
 };
