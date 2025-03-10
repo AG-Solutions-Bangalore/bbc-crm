@@ -111,15 +111,16 @@ const About = () => {
                 !isUpdated ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              <HiOutlineSave size={20} className="mr-2" />
-              Save Changes
+           
+                <p className="flex flex-row gap-2">  <HiOutlineSave className="" />
+                              <span> Update</span></p>
             </button>
             <button
               onClick={() => navigate("/home")}
               className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
             >
-              <FaEdit size={20} className="mr-2" />
-              Cancel
+             <p className="flex flex-row gap-2">  <FaEdit className="" />
+                           <span> Cancel</span></p>
             </button>
           </div>
         </div>
