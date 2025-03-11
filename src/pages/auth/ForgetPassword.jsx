@@ -33,10 +33,10 @@ const ForgetPassword = () => {
       );
 
       if (res.status === 200) {
-        toast.success("Password reset successfully");
+        toast.success(res.data.msg || "Password reset successfully");
         navigate("/");
       } else {
-        toast.error("Password reset failed");
+        toast.error(res.data.msg || "Password reset failed");
       }
     } catch (error) {
       console.error("An error occurred during password reset", error);
@@ -128,9 +128,16 @@ const ForgetPassword = () => {
                   labelProps={{ className: "!text-[#A41460]" }}
                   placeholder="Enter your mobile number"
                   name="phone"
+                  minLength={10}
+                  maxLength={10}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="bg-gray-100 text-gray-700 placeholder-gray-400"
+                  onKeyDown={(e) => {
+                    if (!/[\d]/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               
