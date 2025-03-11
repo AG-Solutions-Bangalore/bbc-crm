@@ -32,7 +32,7 @@ const ForgetPassword = () => {
         formData
       );
 
-      if (res.status === 200) {
+      if (res.data.code === 200) {
         toast.success(res.data.msg || "Password reset successfully");
         navigate("/");
       } else {
