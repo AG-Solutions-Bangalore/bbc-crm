@@ -204,17 +204,21 @@ const UserProfile = () => {
                       className="w-full"
                     />
                   </div>
+
                   <div>
-                    <Input
+                    <Select
                       name="gender"
-                      required
                       value={userProfileData.gender}
-                      onChange={handleInputChange}
+                      onChange={(value) => setUserProfileData({ ...userProfileData, gender: value })}
                       label="Gender"
                       icon={<BiMaleFemale className="h-5 w-5" />}
                       className="w-full"
-                    />
+                    >
+                      <Option value="Male">Male</Option>
+                      <Option value="Female">Female</Option>
+                    </Select>
                   </div>
+
                   <div>
                     <Input
                       name="dob"
