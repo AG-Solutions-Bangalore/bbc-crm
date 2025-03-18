@@ -6,6 +6,16 @@ import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import MUIDataTable from "mui-datatables";
 import { CiEdit } from "react-icons/ci";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+ 
+  Typography,
+ 
+} from "@material-tailwind/react";
+import { HiOutlineArrowCircleRight } from "react-icons/hi";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const NewUser = () => {
   const [newUserData, setNewUserData] = useState(null);
@@ -103,7 +113,7 @@ const NewUser = () => {
         customBodyRender: (userId) => {
           return (
             <div onClick={() => navigate(`/user-view?id=${userId}`)}>
-              <CiEdit className="h-5 w-5 cursor-pointer" />
+              <HiOutlineArrowCircleRight title="Go to user details" className="h-5 w-5 cursor-pointer" />
             </div>
           );
         },
@@ -120,20 +130,31 @@ const NewUser = () => {
     viewColumns: false,
     download: false,
     print: false,
+    
   };
 
   // console.log("newuserdata", newUserData);
 
   return (
     <Layout>
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"New User List"}
+       <div className="container mx-auto mt-5">
+ <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+           <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" color={ButtonConfig.typographyColor}  className="font-bold">
+            New User List
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
+          <MUIDataTable
+          // title={"New User List"}
           data={newUserData ? newUserData?.new_user : []}
           columns={columns}
           options={options}
         />
+          </CardBody>
+        </Card>
       </div>
+     
     </Layout>
   );
 };

@@ -17,6 +17,7 @@ import {
 import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { MdOutlineContactPage, MdOutlineFeedback } from "react-icons/md";
+import { ButtonConfig } from "../config/ButtonConfig";
 
 const SideNav = ({ openSideNav, setOpenSideNav }) => {
   const sidenavRef = useRef(null);
@@ -24,33 +25,34 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
 
   const adminType = localStorage.getItem("admin-type");
   const detailsView = localStorage.getItem("details-view");
-  const [openUsersMenu, setOpenUsersMenu] = useState(false); // State to handle dropdown toggle
+  const [openUsersMenu, setOpenUsersMenu] = useState(false);
+
+  // Check if the current path is in the users submenu to auto-expand
+  useEffect(() => {
+    const userPaths = ['/new-user', '/active-user', '/inactive-user', '/mobile-user'];
+    if (userPaths.some(path => pathname.includes(path))) {
+      setOpenUsersMenu(true);
+    }
+  }, [pathname]);
 
   const handleUsersButtonClick = () => {
-    setOpenUsersMenu(!openUsersMenu); // Toggle dropdown on click
+    setOpenUsersMenu(!openUsersMenu);
   };
 
-  // Hardcoded sidenavType to "dark"
-  const sidenavType = "dark";
+  // Enhanced sidebar styles
+  const sidebarStyle = "bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg shadow-pink-900/20 backdrop-blur-sm";
 
-  const sidenavTypes = {
-    dark: "bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg shadow-blue-900",
-    white: "bg-white shadow-sm",
-    transparent: "bg-transparent",
-  };
-
-  // close sidebar when clicking outside
-
+  // Close sidebar when clicking outside
   useEffect(() => {
-    function handClickOutside(e) {
+    function handleClickOutside(e) {
       if (sidenavRef.current && !sidenavRef.current.contains(e.target)) {
         setOpenSideNav(false);
       }
     }
 
-    document.addEventListener("mousedown", handClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setOpenSideNav]);
 
@@ -59,9 +61,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
     setOpenSideNav(false);
   }, [pathname, setOpenSideNav]);
 
-  // defne the menu item as per role
-
-  // const menu items upper
+  // Menu items definitions
   const menuItems = [
     {
       to: "/home",
@@ -101,7 +101,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
     },
   ];
 
-  // middle
+  // User submenu items
   const menuItems1 = [
     {
       to: "/new-user",
@@ -129,7 +129,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
     },
   ];
 
-  // last
+  // Bottom menu items
   const menuItems2 = [
     {
       to: "/feedback",
@@ -157,10 +157,9 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
     },
   ];
 
-  // role-type 0
-
+  // Filter menu items based on user role
   const getFilteredMenuItems = () => {
-    if (adminType == "superadmin") {
+    if (adminType === "superadmin") {
       return menuItems;
     }
     if (adminType === "admin") {
@@ -171,11 +170,11 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
         ? menuItems.filter((item) => item.roles.includes("user"))
         : menuItems.filter((item) => item.roles.includes("userType1"));
     }
+    return [];
   };
-  // role-type 1
 
   const getFilteredMenuItems1 = () => {
-    if (adminType == "superadmin") {
+    if (adminType === "superadmin") {
       return menuItems1;
     }
     if (adminType === "admin") {
@@ -186,11 +185,11 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
         ? menuItems1.filter((item) => item.roles.includes("user"))
         : menuItems1.filter((item) => item.roles.includes("userType1"));
     }
+    return [];
   };
-  // role-type 2
 
   const getFilteredMenuItems2 = () => {
-    if (adminType == "superadmin") {
+    if (adminType === "superadmin") {
       return menuItems2;
     }
     if (adminType === "admin") {
@@ -201,48 +200,65 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
         ? menuItems2.filter((item) => item.roles.includes("user"))
         : menuItems2.filter((item) => item.roles.includes("userType1"));
     }
+    return [];
   };
+
+  // Check if current path is active
+  const isActiveLink = (path) => pathname === path;
 
   return (
     <aside
       ref={sidenavRef}
-      className={`${sidenavTypes[sidenavType]} ${
+      className={`${sidebarStyle} ${
         openSideNav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)]  w-72 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100`}
+      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-all duration-300 ease-in-out xl:translate-x-0 border border-blue-gray-100/30 backdrop-blur-sm`}
+      style={{ 
+        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      }}
     >
-      <div className={`relative bg-white rounded-xl`}>
-        <Link to="/home" className="flex items-center justify-center p-4">
-          <div className="flex items-center">
-            <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
-          </div>
-        </Link>
-        <IconButton
+      <div className="relative bg-white rounded-t-xl overflow-hidden shadow-md">
+    
+          <div className="flex items-center justify-center p-4 hover:bg-pink-50 transition-colors duration-300">
+            <img 
+              src="/logo.png" 
+              alt="Logo" 
+              className="h-12 w-auto transition-transform duration-300 hover:scale-105" 
+            />
+       
+        </div>
+        {/* <IconButton
           variant="text"
           color="white"
           size="sm"
-          ripple={false}
-          className="absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
-          onClick={() => setOpenSideNav(false)}
-        >
-          <XMarkIcon strokeWidth={2.5} className="h-5 w-5 text-white" />
-        </IconButton>
+          ripple={true}
+          className=""
+         
+        > */}
+          <XMarkIcon  onClick={() => setOpenSideNav(false)}  strokeWidth={2.5} className=" absolute right-0 top-0 grid rounded-br-lg rounded-tl-lg xl:hidden hover:bg-red-600/10 transition-colors duration-300 h-6 w-6 text-black" />
+        {/* </IconButton> */}
       </div>
-      <div className="m-4 overflow-y-auto  lg:h-[calc(100vh-150px)]  md:h-[calc(100vh-200px)] h-[calc(100vh-200px)] custom-scroll ">
-        <ul className="mb-4 flex flex-col  gap-1     ">
+      <div className="m-4 overflow-y-auto lg:h-[calc(100vh-150px)] md:h-[calc(100vh-200px)] h-[calc(100vh-200px)] custom-scroll">
+        <ul className="mb-4 flex flex-col gap-1">
           {getFilteredMenuItems().map((item) => (
-            <li key={item.to}>
+            <li key={item.to} className="transform transition-transform duration-200 hover:translate-x-1">
               <NavLink to={item.to}>
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? "gradient" : "text"}
-                    color="white"
-                    className="flex items-center gap-4 px-4 py-2 text-sm md:text-base capitalize"
+                    color={isActive ? `${ButtonConfig.sidebarColor}` : "white"}
+                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${
+                      isActive ? "shadow-md" : ""
+                    } transition-all duration-300 hover:bg-pink-500/20`}
                     fullWidth
                   >
-                    {item.icon}
+                    <span className={`${isActive ? "text-white" : ""}`}>
+                      {item.icon}
+                    </span>
                     <Typography
                       color="inherit"
-                      className="font-medium capitalize"
+                      className={`font-medium capitalize ${
+                        isActive ? "text-white" : "text-gray-300"
+                      } transition-colors duration-300`}
                     >
                       {item.text}
                     </Typography>
@@ -252,14 +268,15 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
             </li>
           ))}
 
-          {/* Add more hardcoded routes here as needed */}
           {/* Users Dropdown */}
-          <li>
+          <li className="transform transition-transform duration-200 hover:translate-x-1">
             <div>
               <Button
-                variant="text"
-                color="white"
-                className="flex items-center justify-between px-4 capitalize"
+                variant={openUsersMenu ? "gradient" : "text"}
+                color={openUsersMenu ? `${ButtonConfig.sidebarColor}` : "white"}
+                className={`flex items-center justify-between px-4 py-2.5 capitalize transition-all duration-300 hover:bg-pink-500/20 ${
+                  openUsersMenu ? "shadow-md" : ""
+                }`}
                 fullWidth
                 onClick={handleUsersButtonClick}
               >
@@ -267,35 +284,47 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   <UserPlusIcon className="w-5 h-5 text-inherit" />
                   <Typography
                     color="inherit"
-                    className="font-medium capitalize"
+                    className={`font-medium capitalize ${
+                      openUsersMenu ? "text-white" : "text-gray-300"
+                    } transition-colors duration-300`}
                   >
                     Users
                   </Typography>
                 </div>
                 <ChevronDownIcon
-                  className={`w-5 h-5 transition-transform ${
+                  className={`w-5 h-5 transition-transform duration-300 ${
                     openUsersMenu ? "rotate-180" : ""
                   }`}
                 />
               </Button>
-              {/* menu item 1 */}
-              {openUsersMenu && (
-                <ul className="ml-8">
-                  {/* menu item 1User */}
+              
+              {/* Submenu with smooth animation */}
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  openUsersMenu ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                <ul className="ml-6 mt-1 border-l border-gray-700/50 pl-2">
                   {getFilteredMenuItems1().map((item) => (
-                    <li key={item.to}>
+                    <li key={item.to} className="transform transition-transform duration-200 hover:translate-x-1 my-1">
                       <NavLink to={item.to}>
                         {({ isActive }) => (
                           <Button
                             variant={isActive ? "gradient" : "text"}
-                            color="white"
-                            className="flex items-center gap-4 px-4 py-2 text-sm md:text-base capitalize"
+                            color={isActive ? `${ButtonConfig.sidebarColor}` : "white"}
+                            className={`flex items-center gap-4 px-4 py-2 text-sm capitalize ${
+                              isActive ? "shadow-md" : ""
+                            } transition-all duration-300 hover:bg-pink-500/20`}
                             fullWidth
                           >
-                            {item.icon}
+                            <span className={`${isActive ? "text-white" : ""}`}>
+                              {item.icon}
+                            </span>
                             <Typography
                               color="inherit"
-                              className="font-medium capitalize"
+                              className={`font-medium capitalize ${
+                                isActive ? "text-white" : "text-gray-300"
+                              } transition-colors duration-300`}
                             >
                               {item.text}
                             </Typography>
@@ -305,26 +334,31 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                     </li>
                   ))}
                 </ul>
-              )}
-              
+              </div>
             </div>
           </li>
 
-          {/* menuitem 2  */}
+          {/* Bottom menu items */}
           {getFilteredMenuItems2().map((item) => (
-            <li key={item.to}>
+            <li key={item.to} className="transform transition-transform duration-200 hover:translate-x-1">
               <NavLink to={item.to}>
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? "gradient" : "text"}
-                    color="white"
-                    className="flex items-center gap-4 px-4 py-2 text-sm md:text-base capitalize"
+                    color={isActive ? `${ButtonConfig.sidebarColor}` : "white"}
+                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${
+                      isActive ? "shadow-md" : ""
+                    } transition-all duration-300 hover:bg-pink-500/20`}
                     fullWidth
                   >
-                    {item.icon}
+                    <span className={`${isActive ? "text-white" : ""}`}>
+                      {item.icon}
+                    </span>
                     <Typography
                       color="inherit"
-                      className="font-medium capitalize"
+                      className={`font-medium capitalize ${
+                        isActive ? "text-white" : "text-gray-300"
+                      } transition-colors duration-300`}
                     >
                       {item.text}
                     </Typography>
@@ -333,17 +367,15 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
               </NavLink>
             </li>
           ))}
-
         </ul>
-        
       </div>
-      <div className="mt-auto pt-4 border-t border-gray-700">
-  <div className=" absolute bottom-5 w-full text-center text-sm text-gray-400">
-    <p> Updated On: March 10, 2025</p>
- 
-  </div>
-</div>
+      <div className="absolute bottom-0 w-full border-t rounded-b-lg border-gray-700 py-4 px-4 bg-gradient-to-t from-gray-900 to-gray-900">
+        <div className="w-full text-center text-sm text-gray-400">
+          <p className="animate-pulse">Updated On: March 18, 2025</p>
+        </div>
+      </div>
     </aside>
   );
 };
+
 export default SideNav;

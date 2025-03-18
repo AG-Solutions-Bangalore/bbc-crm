@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import { ContextPanel } from "../../utils/ContextPanel";
-import toast, { Toaster } from "react-hot-toast";
 import { FaArrowLeft } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -61,22 +61,7 @@ const SignIn = () => {
 
   return (
     <>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "green",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
+   
       <div className="flex flex-col m-0 lg:flex-row h-screen">
         {/* Left Side - Images with Animation and Background Color */}
         <div className="hidden lg:block lg:w-[50%] xl:block xl:w-[50%] h-full bg-white overflow-hidden">
@@ -313,7 +298,7 @@ const SignIn = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="bg-gray-100 text-gray-700 placeholder-gray-400"
                   onKeyDown={(e) => {
-                    if (!/[\d]/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+                    if (!/[\d]/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight"&& e.key !== "Tab") {
                       e.preventDefault();
                     }
                   }}
@@ -331,8 +316,9 @@ const SignIn = () => {
                   <Typography
                     variant="small"
                     className="font-medium text-[#A41460]"
+                    
                   >
-                    <Link to="/forget-password">Forgot Password?</Link>
+                    <Link tabIndex={-1} to="/forget-password">Forgot Password?</Link>
                   </Typography>
                 </div>
                 <Input

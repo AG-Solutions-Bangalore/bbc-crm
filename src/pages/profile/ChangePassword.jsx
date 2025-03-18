@@ -13,8 +13,8 @@ import { ContextPanel } from "../../utils/ContextPanel";
 import { useNavigate } from "react-router-dom";
 import BASE_URL from "../../base/BaseUrl";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-import toast, { Toaster } from "react-hot-toast";
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
@@ -69,22 +69,7 @@ const ChangePassword = () => {
   };
   return (
     <Layout>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "green",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
+    
       <div className="mt-12 mb-8 flex flex-col gap-12">
         <Card>
           <CardBody className="flex flex-col md:flex-col lg:flex-row gap-4">
@@ -94,7 +79,7 @@ const ChangePassword = () => {
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
               size="lg"
-              color="blue"
+              color="pink"
               required
             />
             <Input
@@ -103,7 +88,7 @@ const ChangePassword = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               size="lg"
-              color="blue"
+              color="pink"
               required
             />
             <Input
@@ -112,7 +97,7 @@ const ChangePassword = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               size="lg"
-              color="blue"
+              color="pink"
               required
             />
           </CardBody>
@@ -120,7 +105,7 @@ const ChangePassword = () => {
             <Button
               variant="gradient"
               className="flex justify-center w-48"
-              color="blue"
+              color="pink"
               onClick={handleSumbit}
               fullWidth
             >

@@ -5,10 +5,20 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import MUIDataTable from "mui-datatables";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+ 
+  Typography,
+ 
+} from "@material-tailwind/react";
+import DataLoader from "../../components/DataLoader";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const Enquiry = () => {
   const [enquiryData, setEnquiryData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { isPanelUp } = useContext(ContextPanel);
   const navigate = useNavigate();
 
@@ -99,20 +109,39 @@ const Enquiry = () => {
     viewColumns: false,
     download: false,
     print: false,
+    textLabels: {
+      body: {
+        noMatch: loading ? <>
+        <div className="flex justify-center items-center h-64">
+                <DataLoader/>
+              </div></> : "No records found", 
+      },
+    },
+    
   };
 
   const data = useMemo(() => (enquiryData ? enquiryData : []), [enquiryData]);
-
+  
   return (
     <Layout>
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"Enquiry List"}
+        <div className="container mx-auto mt-5">
+         <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                 <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" color={ButtonConfig.typographyColor} className="font-bold">
+            Enquiry List
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
+          <MUIDataTable
+          // title={"Enquiry List"}
           data={data}
           columns={columns}
           options={options}
         />
+          </CardBody>
+        </Card>
       </div>
+    
     </Layout>
   );
 };

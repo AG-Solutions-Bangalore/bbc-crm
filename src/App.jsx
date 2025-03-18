@@ -1,4 +1,6 @@
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/dashboard/Home";
 import SignIn from "./pages/auth/SignIn";
 import SIgnUp from "./pages/auth/SIgnUp";
@@ -21,6 +23,7 @@ import NewUserView from "./pages/users/NewUserView";
 // import Feedback from "./pages/users/Feedback";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader";
+import DisabledRightClick from "./components/DisabledRightClick";
 // import MissionVission from "./pages/website/MissionVission";
 // import Contact from "./pages/users/Contact";
 // const NewUserView = lazy(() => import("./pages/users/NewUserView"));
@@ -45,6 +48,8 @@ const MissionVission = lazy(() => import("./pages/website/MissionVission"));
 const App = () => {
   return (
     <>
+      <ToastContainer />
+      {/* <DisabledRightClick/> */}
       <Routes>
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SIgnUp />} />

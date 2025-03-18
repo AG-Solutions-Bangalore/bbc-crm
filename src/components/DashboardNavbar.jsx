@@ -2,116 +2,74 @@ import { useLocation, Link } from "react-router-dom";
 import {
   Navbar,
   Typography,
-  Button,
   IconButton,
-  Breadcrumbs,
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
-  Avatar,
 } from "@material-tailwind/react";
 import {
   UserCircleIcon,
-  Cog6ToothIcon,
-  BellIcon,
-  ClockIcon,
-  CreditCardIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
-import Logout from "./Logout";
 import { useState } from "react";
 import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
+import Logout from "./Logout";
 
 const DashboardNavbar = ({ openSideNav, setOpenSideNav }) => {
   const { pathname } = useLocation();
-
   const [openModal, setOpenModal] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
   const handleOpenLogout = () => setOpenModal(!openModal);
-
   const pathSegments = pathname.split("/").filter((el) => el !== "");
-
-  const breadcrumbs = [
-    { name: "Home", link: "/home" },
-    ...pathSegments.map((segment, index) => ({
-      name: segment.charAt(0).toUpperCase() + segment.slice(1),
-      link: `/${pathSegments.slice(0, index + 1).join("/")}`,
-    })),
-  ];
-
-  const pageTitle =
-    pathSegments.length === 0
-      ? "Home"
-      : pathSegments[pathSegments.length - 1]?.charAt(0).toUpperCase() +
-        pathSegments[pathSegments.length - 1]?.slice(1);
-
-  // Hardcode fixedNavbar to true
-  const fixedNavbar = true;
 
   return (
     <Navbar
-      color={fixedNavbar ? "white" : "transparent"}
-      className={`rounded-xl transition-all ${
-        fixedNavbar
-          ? "sticky top-4 z-40 py-3 bg-gradient-to-br from-gray-800 text-white to-gray-700  shadow-lg  shadow-blue-900"
-          : "px-0 py-1"
-      }`}
+      className="sticky top-4 z-40 py-2 bg-gradient-to-br from-gray-800 to-gray-700 text-white shadow-lg shadow-blue-900 rounded-xl"
       fullWidth
-      blurred={fixedNavbar}
+      blurred
     >
-      <div className="flex  justify-between gap-6 flex-row md:items-center">
-        <div className="capitalize">
-     
-             
-                <Typography
-                  variant="small"
-                  color="white"
-                  className="font-normal transition-all hover:text-blue-500 hover:opacity-100"
-                >
-                  Home
-                </Typography>
-            
-       
-   
-        </div>
-        <div className="flex items-center">
-          {/* Search and other elements can be added here */}
+      <div className="flex justify-between items-center">
+        <Typography
+          variant="small"
+          color="white"
+          className="font-normal transition-all hover:text-blue-500 hover:opacity-100"
+        >
+          Home
+        </Typography>
 
-          {/* Sidebar toggle button for mobile view */}
+        <div className="flex items-center gap-1">
           <IconButton
             variant="text"
             color="white"
-            className="grid xl:hidden"
+            className="grid xl:hidden p-1"
             onClick={() => setOpenSideNav(!openSideNav)}
           >
-            <Bars3Icon strokeWidth={3} className="h-6 w-6 text-white" />
+            <Bars3Icon className="h-5 w-5 text-white" />
           </IconButton>
-          {/* profile icon  */}
+          
           <Menu
             open={profileMenuOpen}
             handler={setProfileMenuOpen}
             placement="bottom-end"
           >
             <MenuHandler>
-              <IconButton variant="text" color="white">
-                <UserCircleIcon className="h-5 w-5 text-red" />
+              <IconButton variant="text" color="white" className="p-1">
+                <UserCircleIcon className="h-5 w-5 text-white" />
               </IconButton>
             </MenuHandler>
             <MenuList className="bg-gray-700">
-            <Link to="/change-password" className="text-black">
-              <MenuItem className="bg-white text-black">
-               
+              <Link to="/change-password" className="text-black">
+                <MenuItem className="bg-white text-black">
                   Change Password
-              
-              </MenuItem>
+                </MenuItem>
               </Link>
             </MenuList>
           </Menu>
-          {/* Settings icon */}
-          <IconButton variant="text" color="red" onClick={handleOpenLogout}>
-            <HiArrowRightStartOnRectangle className="h-5 w-5 text-red" />
+          
+          <IconButton variant="text" color="white" onClick={handleOpenLogout} className="p-1">
+            <HiArrowRightStartOnRectangle className="h-5 w-5 text-white" />
           </IconButton>
         </div>
       </div>

@@ -7,27 +7,34 @@ import BASE_URL from "../../base/BaseUrl";
 import { FaEdit } from "react-icons/fa";
 import { HiOutlineSave } from "react-icons/hi";
 import { FaTasks } from "react-icons/fa";
-import toast, { Toaster } from "react-hot-toast";
-import { 
-  Dialog, 
-  DialogActions, 
-  DialogContent, 
-  DialogTitle, 
-  Button, 
-  TextField 
-} from "@mui/material";
+import { toast } from "react-toastify";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Button,
+  Typography,
+  Textarea,
+} from "@material-tailwind/react";
+import {
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const MissionVission = () => {
   const [loading, setLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const { isPanelUp } = useContext(ContextPanel);
   const navigate = useNavigate();
-  
+
   // Mission & Vision states
   const [openDialog, setOpenDialog] = useState(false);
   const [missionVision, setMissionVision] = useState({
     product_mission: "",
-    product_vision: ""
+    product_vision: "",
   });
   const [missionVisionId, setMissionVisionId] = useState(null);
   const [hasMissionVision, setHasMissionVision] = useState(false);
@@ -49,12 +56,12 @@ const MissionVission = () => {
             },
           }
         );
-        
+
         // Updated to match the actual API response structure
         if (response.data && response.data.mission_vision) {
           setMissionVision({
             product_mission: response.data.mission_vision.product_mission || "",
-            product_vision: response.data.mission_vision.product_vision || ""
+            product_vision: response.data.mission_vision.product_vision || "",
           });
           setMissionVisionId(response.data.mission_vision.id);
           setHasMissionVision(true);
@@ -81,7 +88,7 @@ const MissionVission = () => {
   const handleDialogInputChange = (e) => {
     setMissionVision({
       ...missionVision,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -89,7 +96,7 @@ const MissionVission = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      
+
       // Create new mission & vision
       await axios.post(
         `${BASE_URL}/api/panel-create-mission-vision`,
@@ -101,9 +108,9 @@ const MissionVission = () => {
         }
       );
       toast.success("Mission & Vision Created Successfully");
-      
+
       handleCloseDialog();
-      
+
       // Refresh the data
       const response = await axios.get(
         `${BASE_URL}/api/panel-fetch-mission-vision`,
@@ -113,11 +120,11 @@ const MissionVission = () => {
           },
         }
       );
-      
+
       if (response.data && response.data.mission_vision) {
         setMissionVision({
           product_mission: response.data.mission_vision.product_mission || "",
-          product_vision: response.data.mission_vision.product_vision || ""
+          product_vision: response.data.mission_vision.product_vision || "",
         });
         setMissionVisionId(response.data.mission_vision.id);
         setHasMissionVision(true);
@@ -134,17 +141,17 @@ const MissionVission = () => {
   const handleInputChange = (e) => {
     setMissionVision({
       ...missionVision,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     setIsUpdated(true);
   };
 
   const handleUpdateMissionVision = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      
+
       await axios.put(
         `${BASE_URL}/api/panel-update-mission-vision/${missionVisionId}`,
         missionVision,
@@ -154,7 +161,7 @@ const MissionVission = () => {
           },
         }
       );
-      
+
       toast.success("Mission & Vision Updated");
       setIsUpdated(false);
     } catch (error) {
@@ -167,150 +174,136 @@ const MissionVission = () => {
 
   return (
     <Layout>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "white",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              color: "white",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
-      <div className="p-6 bg-gray-50 min-h-screen">
-        <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Mission & Vision</h1>
+      <div className="container mx-auto mt-5">
+        <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+          <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" olor={ButtonConfig.typographyColor} className="font-bold">
+              Mission & Vision
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
             {!hasMissionVision && (
-              <button
-                onClick={handleOpenDialog}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-                disabled={loading}
-              >
-                <FaTasks className="inline mr-2" />
-                Create Mission & Vision
-              </button>
+              <div className="flex justify-center">
+                <Button
+                  onClick={handleOpenDialog}
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+                  disabled={loading}
+                >
+                  <FaTasks className="inline mr-2" />
+                  Create Mission & Vision
+                </Button>
+              </div>
             )}
-          </div>
 
-          {/* If mission/vision exists, show editable form directly on page */}
-          {hasMissionVision && (
-            <>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Mission
-                </label>
-                <textarea
-                  name="product_mission"
-                  value={missionVision.product_mission}
-                  onChange={handleInputChange}
-                  className="w-full h-40 p-4 border border-gray-300 rounded-lg resize-none"
-                  placeholder="Enter your company's mission"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Vision
-                </label>
-                <textarea
-                  name="product_vision"
-                  value={missionVision.product_vision}
-                  onChange={handleInputChange}
-                  className="w-full h-40 p-4 border border-gray-300 rounded-lg resize-none"
-                  placeholder="Enter your company's vision"
-                />
-              </div>
+            {hasMissionVision && (
+              <form className="space-y-6">
+                <div>
+                  <Textarea
+                    variant="static"
+                    label="Mission *"
+                    color={ButtonConfig.inputColor}
+                    labelProps={{ className: `${ButtonConfig.inputLabelProps}` }}
+                    placeholder="Enter your company's mission"
+                    value={missionVision.product_mission || ""}
+                    onChange={handleInputChange}
+                    name="product_mission"
+                    className="bg-gray-100 text-gray-700 placeholder-gray-400 min-h-64 w-full"
+                    rows={12}
+                  />
+                </div>
 
-              <div className="mt-6 flex justify-end space-x-4">
-                <button
-                  onClick={handleUpdateMissionVision}
-                  disabled={!isUpdated || loading}
-                  className={`bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition flex items-center ${
-                    !isUpdated || loading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <HiOutlineSave className="mr-2" />
-                  {loading ? "Updating..." : "Update"}
-                </button>
-                <button
-                  onClick={() => navigate("/home")}
-                  className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
-                >
-                <p className="flex flex-row gap-2">  <FaEdit className="" />
-                <span> Cancel</span></p>
-                </button>
-              </div>
-            </>
-          )}
-          
-          {/* If no mission/vision exists, show a message */}
-          {!hasMissionVision && !loading && (
-            <div className="mt-6 p-4 bg-gray-100 rounded-lg text-center">
-              <p className="text-gray-600">No mission and vision statements have been created yet.</p>
-              <p className="text-gray-600 mt-2">Click the "Create Mission & Vision" button to add them.</p>
-            </div>
-          )}
-        </div>
+                <div>
+                  <Textarea
+                    variant="static"
+                    label="Vision *"
+                    color={ButtonConfig.inputColor}
+                    labelProps={{ className: `${ButtonConfig.inputLabelProps}` }}
+                    placeholder="Enter your company's vision"
+                    value={missionVision.product_vision || ""}
+                    onChange={handleInputChange}
+                    name="product_vision"
+                    className="bg-gray-100 text-gray-700 placeholder-gray-400 min-h-64 w-full"
+                    rows={12}
+                  />
+                </div>
+
+                <div className="flex justify-center mt-8">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button
+                      onClick={handleUpdateMissionVision}
+                      disabled={!isUpdated || loading}
+                      className={`w-full sm:w-auto px-8 py-3 ${ButtonConfig.sumbitButtonBg} hover:${ButtonConfig.sumbitButtonBgHover} transition-colors duration-300 flex items-center justify-center gap-2 ${!isUpdated ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                    >
+                    
+                      <span>{loading ? "Updating..." : "Update "}</span>
+                    </Button>
+                    <Button
+                      type="button"
+                      color={ButtonConfig.cancelButtonColor}
+                      className="w-full sm:w-auto px-8 py-3 flex items-center justify-center gap-2"
+                      onClick={() => navigate("/home")}
+                    >
+                   
+                      <span>Cancel</span>
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            )}
+          </CardBody>
+        </Card>
       </div>
 
-      {/* Dialog ONLY for creating mission & vision */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-        <DialogTitle>Create Mission & Vision</DialogTitle>
-        <DialogContent>
-          <div className="mt-4">
-            <TextField
-              label="Mission"
+      {/* Dialog for creating mission & vision */}
+      <Dialog open={openDialog} handler={handleCloseDialog} size="md">
+        <DialogHeader>Create Mission & Vision</DialogHeader>
+        <DialogBody>
+          <div className="space-y-6">
+            <Textarea
+              variant="static"
+              label="Mission *"
+              color={ButtonConfig.inputColor}
+              labelProps={{ className: `${ButtonConfig.inputLabelProps}` }}
+              placeholder="Enter your company's mission"
+              value={missionVision.product_mission || ""}
+              onChange={handleDialogInputChange}
               name="product_mission"
-              value={missionVision.product_mission}
-              onChange={handleDialogInputChange}
-              multiline
-              rows={4}
-              fullWidth
-              variant="outlined"
-              margin="normal"
+              className="bg-gray-100 text-gray-700 placeholder-gray-400 min-h-64 w-full"
+              rows={6}
             />
-            <TextField
-              label="Vision"
-              name="product_vision"
-              value={missionVision.product_vision}
+            <Textarea
+              variant="static"
+              label="Vision *"
+              color={ButtonConfig.inputColor}
+              labelProps={{ className: `${ButtonConfig.inputLabelProps}` }}
+              placeholder="Enter your company's vision"
+              value={missionVision.product_vision || ""}
               onChange={handleDialogInputChange}
-              multiline
-              rows={4}
-              fullWidth
-              variant="outlined"
-              margin="normal"
+              name="product_vision"
+              className="bg-gray-100 text-gray-700 placeholder-gray-400 min-h-64 w-full"
+              rows={6}
             />
           </div>
-        </DialogContent>
-        <DialogActions>
-          <Button 
-            onClick={handleCloseDialog} 
-            color="secondary" 
-            disabled={loading}
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleCloseDialog}
+            className="mr-4"
           >
             Cancel
           </Button>
-          <Button 
-            onClick={handleCreateMissionVision} 
-            color="primary" 
-            variant="contained"
+          <Button
+            variant="gradient"
+            color="green"
+            onClick={handleCreateMissionVision}
             disabled={loading}
           >
             {loading ? "Creating..." : "Create"}
           </Button>
-        </DialogActions>
+        </DialogFooter>
       </Dialog>
     </Layout>
   );
