@@ -11,8 +11,17 @@ import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import Layout from "../../layout/Layout";
 import MUIDataTable from "mui-datatables";
-import { CiEdit } from "react-icons/ci";
-import toast, { Toaster } from "react-hot-toast";
+import { GrTransaction } from "react-icons/gr";
+import { toast } from "react-toastify";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+ 
+  Typography,
+ 
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const InactiveUser = () => {
   const [inActiveUserData, setInActiveUserData] = useState(null);
@@ -135,7 +144,7 @@ const InactiveUser = () => {
           customBodyRender: (userId) => {
             return (
               <div>
-                <CiEdit
+                <GrTransaction
                   title="Activate"
                   onClick={() => onUpdateInActive(userId)}
                   className="h-5 w-5 cursor-pointer"
@@ -158,6 +167,7 @@ const InactiveUser = () => {
     viewColumns: false,
     download: false,
     print: false,
+    
   };
 
   const data = useMemo(
@@ -167,35 +177,26 @@ const InactiveUser = () => {
 
   return (
     <Layout>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "white",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
-
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"InActive User List"}
+      <div className="container mx-auto mt-5">
+         <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                   <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+                 <Typography variant="h4" color={ButtonConfig.typographyColor} className="font-bold">
+                 InActive User List
+                 </Typography>
+               </CardHeader>
+               <CardBody className="p-0">
+               <MUIDataTable
+          // title={"InActive User List"}
           data={data}
           columns={columns}
           options={options}
         />
-      </div>
+               </CardBody>
+             </Card>
+           </div>
+
+
+     
     </Layout>
   );
 };

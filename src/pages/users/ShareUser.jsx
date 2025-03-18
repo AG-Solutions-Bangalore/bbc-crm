@@ -5,7 +5,17 @@ import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import Layout from "../../layout/Layout";
 import MUIDataTable from "mui-datatables";
-import { CiEdit } from "react-icons/ci";
+import { HiOutlineArrowCircleRight } from "react-icons/hi";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+
+  Typography,
+
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
+
 
 const ShareUser = () => {
   const [shareData, setShareData] = useState(null);
@@ -80,7 +90,7 @@ const ShareUser = () => {
           customBodyRender: (userId) => {
             return (
               <div onClick={() => navigate(`/share-view?id=${userId}`)}>
-                <CiEdit className="h-5 w-5 cursor-pointer" />
+                <HiOutlineArrowCircleRight title="Go to user detail" className="h-5 w-5 cursor-pointer" />
               </div>
             );
           },
@@ -105,14 +115,24 @@ const ShareUser = () => {
 
   return (
     <Layout>
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"Share User List"}
+       <div className="container mx-auto mt-5 ">
+           <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                   <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+                  <Typography variant="h4" color={ButtonConfig.typographyColor} className="font-bold">
+                  Share User List
+                  </Typography>
+                </CardHeader>
+                <CardBody className="p-0 ">
+                <MUIDataTable
+          // title={"Share User List"}
           data={data}
           columns={columns}
           options={options}
         />
-      </div>
+                </CardBody>
+              </Card>
+            </div>
+    
     </Layout>
   );
 };

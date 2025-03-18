@@ -2,18 +2,18 @@ import React from "react";
 import Layout from "../../layout/Layout";
 import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
-
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
+import {
+  Card,
+  CardHeader,
+  Typography,
+  CardBody,
+  Button,
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const Download = () => {
-  //use toaster
-  //logic
-  // create a function called download report for download logic (for resuable)
-  // get  token from localStorage.
-  // than post request with token with axios
-  // Set responseType-"blob" to handle binary data for download.
-  // Created a download link using window.URL.createObjectURL.
-  // use the download link in onClick
+  // Function to handle file download
   const downloadReport = async (url, fileName) => {
     try {
       const token = localStorage.getItem("token");
@@ -36,74 +36,57 @@ const Download = () => {
       link.click();
 
       console.log(`${fileName} downloaded successfully.`);
-      // toast.success("Member data Download");
+      toast.success(`${fileName} downloaded successfully.`);
     } catch (err) {
       console.error(`Error downloading ${fileName}:`, err);
-      toast.error("Err on Downloading");
+      toast.error("Error downloading file.");
     }
   };
 
+  // Handler for downloading member data
   const downloadMemberData = (e) => {
     e.preventDefault();
     downloadReport(`${BASE_URL}/api/download-member-report`, "member.csv");
-    toast.success("Member data Download");
   };
 
+  // Handler for downloading mobile user data
   const downloadMobileUserData = (e) => {
     e.preventDefault();
     downloadReport(
       `${BASE_URL}/api/download-mobile-user-report`,
       "mobileuser.csv"
     );
-    toast.success("Mobile User data Download");
   };
 
   return (
     <Layout>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "white",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
-
-      <div className="container mx-auto mt-10 px-4">
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-8 rounded-lg shadow-xl text-white">
-          <h3 className="text-3xl font-extrabold mb-6 text-center">
-            Download Data
-          </h3>
-          <hr className="mb-8 border-indigo-300" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <button
-              className="w-full bg-white text-indigo-700 font-semibold py-4 rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-1 hover:shadow-lg"
-              onClick={downloadMemberData}
-            >
-              Download Member Data
-            </button>
-            <button
-              className="w-full bg-white text-indigo-700 font-semibold py-4 rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-1 hover:shadow-lg"
-              onClick={downloadMobileUserData}
-            >
-              Download Mobile User Data
-            </button>
-          </div>
-        </div>
+      <div className="container mx-auto mt-5">
+         <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                 <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" color={ButtonConfig.typographyColor}  className="font-bold">
+              Download Data
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <Button
+                className={`w-full ${ButtonConfig.downloadButtonBg} hover:${ButtonConfig.downloadButtonBgHover}    text-white font-semibold py-4 rounded-xl transition transform hover:-translate-y-1 hover:shadow-lg`}
+                onClick={downloadMemberData}
+              >
+                Download Member Data
+              </Button>
+              <Button
+                  className={`w-full ${ButtonConfig.downloadButtonBg} hover:${ButtonConfig.downloadButtonBgHover}    text-white font-semibold py-4 rounded-xl transition transform hover:-translate-y-1 hover:shadow-lg`}
+                onClick={downloadMobileUserData}
+              >
+                Download Mobile User Data
+              </Button>
+            </div>
+          </CardBody>
+        </Card>
       </div>
     </Layout>
   );
 };
+
 export default Download;

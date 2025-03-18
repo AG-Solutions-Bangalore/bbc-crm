@@ -2,9 +2,9 @@ import { Input, Button, Typography, Card } from "@material-tailwind/react";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ContextPanel } from "../../utils/ContextPanel";
-import toast, { Toaster } from "react-hot-toast";
 import BASE_URL from "../../base/BaseUrl";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
   const [phone, setPhone] = useState("");
@@ -48,22 +48,7 @@ const ForgetPassword = () => {
 
   return (
     <>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "green",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
+     
       <div className="flex flex-col m-0 lg:flex-row h-screen">
         {/* Left Side - Images with Animation and Background Color */}
         <div className="hidden lg:block lg:w-[50%] xl:block xl:w-[50%] h-full bg-white">

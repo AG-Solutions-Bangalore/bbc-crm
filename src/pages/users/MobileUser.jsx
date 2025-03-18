@@ -5,6 +5,15 @@ import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import Layout from "../../layout/Layout";
 import MUIDataTable from "mui-datatables";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+ 
+  Typography,
+ 
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const MobileUser = () => {
   const [mobileUserData, setMobileUserData] = useState(null);
@@ -106,6 +115,7 @@ const MobileUser = () => {
     viewColumns: false,
     download: false,
     print: false,
+    
   };
 
   const data = useMemo(
@@ -115,14 +125,24 @@ const MobileUser = () => {
 
   return (
     <Layout>
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"Mobile User List"}
+       <div className="container mx-auto mt-5">
+                 <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                           <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+                       <Typography variant="h4" color={ButtonConfig.typographyColor}  className="font-bold">
+                       Mobile User List
+                       </Typography>
+                     </CardHeader>
+                     <CardBody className="p-0">
+                     <MUIDataTable
+          // title={"Mobile User List"}
           data={data}
           columns={columns}
           options={options}
         />
-      </div>
+                     </CardBody>
+                   </Card>
+                 </div>
+     
     </Layout>
   );
 };

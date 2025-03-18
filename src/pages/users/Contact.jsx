@@ -5,6 +5,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import MUIDataTable from "mui-datatables";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+
+  Typography,
+
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const Contact = () => {
   const [contactData, setContactData] = useState(null);
@@ -105,14 +114,24 @@ const Contact = () => {
 
   return (
     <Layout>
-      <div className="mt-5 ">
-        <MUIDataTable
-          title={"Contact List from Website"}
+        <div className="container mx-auto mt-5">
+        <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+                 <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" color={ButtonConfig.typographyColor}  className="font-bold">
+            Contact List from Website
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
+          <MUIDataTable
+          // title={"Contact List from Website"}
           data={data}
           columns={columns}
           options={options}
         />
+          </CardBody>
+        </Card>
       </div>
+      
     </Layout>
   );
 };

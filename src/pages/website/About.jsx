@@ -6,7 +6,16 @@ import axios from "axios";
 import BASE_URL from "../../base/BaseUrl";
 import { FaEdit } from "react-icons/fa";
 import { HiOutlineSave } from "react-icons/hi";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Button,
+  Typography,
+  Textarea,
+} from "@material-tailwind/react";
+import { ButtonConfig } from "../../config/ButtonConfig";
 
 const About = () => {
   const [about, setAbout] = useState([]);
@@ -25,7 +34,7 @@ const About = () => {
         }
         setLoading(true);
         const token = localStorage.getItem("token");
-        const resposne = await axios.get(
+        const response = await axios.get(
           `${BASE_URL}/api/panel-fetch-about-us`,
           {
             headers: {
@@ -33,8 +42,8 @@ const About = () => {
             },
           }
         );
-        setAbout(resposne.data.aboutUs);
-        setId(resposne.data.aboutUs.id);
+        setAbout(response.data.aboutUs);
+        setId(response.data.aboutUs.id);
       } catch (error) {
         console.error("Error fetching dashboard data", error);
       } finally {
@@ -47,8 +56,8 @@ const About = () => {
 
   const handleUpdateAbout = async () => {
     try {
+      setLoading(true);
       const token = localStorage.getItem("token");
-
       await axios.put(
         `${BASE_URL}/api/panel-update-about-us/${id}`,
         { product_about_us: about.product_about_us },
@@ -58,10 +67,13 @@ const About = () => {
           },
         }
       );
-      toast.success("About Updated");
+      toast.success("About Us updated successfully");
+      setIsUpdated(false);
     } catch (error) {
       console.error("Error updating data", error);
-      toast.error("About Updated err");
+      toast.error("Failed to update About Us");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,58 +84,56 @@ const About = () => {
 
   return (
     <Layout>
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "white",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              marginTop: "48px",
-              padding: "12px",
-            },
-          },
-        }}
-        position="top-right"
-        reverseOrder={false}
-      />
 
-      <div className="p-6  bg-gray-50 min-h-screen">
-        <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">About Us</h1>
-          </div>
-          <textarea
-            value={about?.product_about_us || ""}
-            onChange={handleInputChange}
-            className="w-full h-60 p-4 border border-gray-300 rounded-lg resize-none"
-          />
-          <div className="mt-6 flex justify-end space-x-4">
-            <button
-              onClick={handleUpdateAbout}
-              disabled={!isUpdated}
-              className={`bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
-                !isUpdated ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-           
-                <p className="flex flex-row gap-2">  <HiOutlineSave className="" />
-                              <span> Update</span></p>
-            </button>
-            <button
-              onClick={() => navigate("/home")}
-              className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
-            >
-             <p className="flex flex-row gap-2">  <FaEdit className="" />
-                           <span> Cancel</span></p>
-            </button>
-          </div>
-        </div>
+
+      <div className="container mx-auto mt-5">
+        <Card className={`p-8 bg-gradient-to-r  px-8 py-5 border  ${ButtonConfig.borderCard} hover:shadow-2xl transition-shadow duration-300`}>
+          <CardHeader className={`text-center border ${ButtonConfig.borderCard} rounded-lg shadow-lg p-0 mb-6`}>
+            <Typography variant="h4" color={ButtonConfig.typographyColor} className="font-bold">
+              About Us
+            </Typography>
+          </CardHeader>
+          <CardBody className="p-0">
+            <form className="space-y-6">
+              <div>
+                <Textarea
+                  variant="static"
+                  label="About Us  *"
+                  color={ButtonConfig.inputColor}
+                  labelProps={{ className: `${ButtonConfig.inputLabelProps}` }}
+                  placeholder="Enter information about your company"
+                  value={about?.product_about_us || ""}
+                  onChange={handleInputChange}
+                  className="bg-gray-100 text-gray-700 placeholder-gray-400 min-h-64 w-full"
+                  rows={12}
+                />
+              </div>
+
+              <div className="flex justify-center mt-8">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button
+                    onClick={handleUpdateAbout}
+                    disabled={!isUpdated || loading}
+                    className={`w-full sm:w-auto px-8 py-3 ${ButtonConfig.sumbitButtonBg} hover:${ButtonConfig.sumbitButtonBgHover}    transition-colors duration-300 flex items-center justify-center gap-2 ${!isUpdated ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                  
+                    <span>{loading ? "Updating..." : "Update About"}</span>
+                  </Button>
+                  <Button
+                    type="button"
+                     color={ButtonConfig.cancelButtonColor}
+                    className="w-full sm:w-auto px-8 py-3 flex items-center justify-center gap-2"
+                    onClick={() => navigate("/home")}
+                  >
+                    
+                    <span>Cancel</span>
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </CardBody>
+        </Card>
       </div>
     </Layout>
   );
