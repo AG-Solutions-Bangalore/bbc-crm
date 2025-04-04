@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const Portfolio = () => {
   const [sliderImages, setSliderImages] = useState({});
@@ -83,7 +84,11 @@ const Portfolio = () => {
       setLoading(false);
     }
   };
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
       <div className="container mx-auto mt-5">

@@ -16,6 +16,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const About = () => {
   const [about, setAbout] = useState([]);
@@ -51,7 +52,6 @@ const About = () => {
       }
     };
     fetchAbout();
-    setLoading(false);
   }, []);
 
   const handleUpdateAbout = async () => {
@@ -81,7 +81,11 @@ const About = () => {
     setAbout({ ...about, product_about_us: e.target.value });
     setIsUpdated(true);
   };
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
 

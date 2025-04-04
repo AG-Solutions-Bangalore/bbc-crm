@@ -16,13 +16,27 @@ import {
 } from "@material-tailwind/react";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  CircularProgress
+} from "@mui/material";
+import { toast } from "react-toastify";
+import PageLoader from "../../components/PageLoader";
 
 const NewUser = () => {
   const [newUserData, setNewUserData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isPanelUp } = useContext(ContextPanel);
+  const { isPanelUp,userAdminType } = useContext(ContextPanel);
   const navigate = useNavigate();
-
+ const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [contactIdToDelete, setContactIdToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   useEffect(() => {
     const fetchNewUser = async () => {
       try {
@@ -49,8 +63,53 @@ const NewUser = () => {
       }
     };
     fetchNewUser();
-    setLoading(false);
+ 
   }, []);
+  const handleDeleteClick = (userId) => {
+    setContactIdToDelete(userId);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setDeleteLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `${BASE_URL}/api/panel-delete-profile/${contactIdToDelete}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+     
+      toast.success(response.data.msg || "New User deleted successfully");
+      
+    
+      const fetchResponse = await axios.get(
+        `${BASE_URL}/api/panel-fetch-new-profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setNewUserData(fetchResponse?.data);
+    } catch (error) {
+      console.error("Error deleting new user", error);
+      toast.error(error.response?.data?.message || "Failed to delete new user");
+    } finally {
+      setDeleteLoading(false);
+      setOpenDeleteDialog(false);
+      setContactIdToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setOpenDeleteDialog(false);
+    setContactIdToDelete(null);
+  };
 
   const columns = [
     {
@@ -112,9 +171,20 @@ const NewUser = () => {
         sort: false,
         customBodyRender: (userId) => {
           return (
+            <div className="flex flex-row gap-1 items-center">
             <div onClick={() => navigate(`/user-view?id=${userId}`)}>
               <HiOutlineArrowCircleRight title="Go to user details" className="h-5 w-5 cursor-pointer" />
             </div>
+            {userAdminType === "superadmin" &&(
+            <div>
+                            <TrashIcon 
+                              title="Delete New User" 
+                              className="h-5 w-5 text-red-400 hover:text-red-800 cursor-pointer" 
+                              onClick={() => handleDeleteClick(userId)}
+                            />
+                          </div>
+                           )}
+                          </div>
           );
         },
       },
@@ -132,7 +202,11 @@ const NewUser = () => {
     print: false,
     
   };
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   // console.log("newuserdata", newUserData);
 
   return (
@@ -155,6 +229,36 @@ const NewUser = () => {
         </Card>
       </div>
      
+           {/* Delete Confirmation Dialog */}
+           <Dialog
+             open={openDeleteDialog}
+             onClose={handleDeleteCancel}
+             aria-labelledby="alert-dialog-title"
+             aria-describedby="alert-dialog-description"
+           >
+             <DialogTitle id="alert-dialog-title">
+               {"Confirm Delete"}
+             </DialogTitle>
+             <DialogContent>
+               <DialogContentText id="alert-dialog-description">
+                 Are you sure you want to delete this new user? This action cannot be undone.
+               </DialogContentText>
+             </DialogContent>
+             <DialogActions>
+               <Button onClick={handleDeleteCancel} color="primary" disabled={deleteLoading}>
+                 Cancel
+               </Button>
+               <Button 
+                 onClick={handleDeleteConfirm} 
+                 color="error" 
+                 autoFocus
+                 disabled={deleteLoading}
+                 startIcon={deleteLoading ? <CircularProgress size={20} color="inherit" /> : null}
+               >
+                 {deleteLoading ? 'Deleting...' : 'Delete'}
+               </Button>
+             </DialogActions>
+           </Dialog>
     </Layout>
   );
 };

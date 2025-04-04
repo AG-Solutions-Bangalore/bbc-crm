@@ -15,6 +15,7 @@ import {
 } from "@material-tailwind/react";
 import DataLoader from "../../components/DataLoader";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const Enquiry = () => {
   const [enquiryData, setEnquiryData] = useState(null);
@@ -48,7 +49,7 @@ const Enquiry = () => {
       }
     };
     fetchEnquiry();
-    setLoading(false);
+   
   }, []);
 
   const columns = useMemo(
@@ -121,7 +122,11 @@ const Enquiry = () => {
   };
 
   const data = useMemo(() => (enquiryData ? enquiryData : []), [enquiryData]);
-  
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
         <div className="container mx-auto mt-5">

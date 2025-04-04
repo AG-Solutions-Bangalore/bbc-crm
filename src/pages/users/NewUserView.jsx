@@ -30,6 +30,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const NewUserView = () => {
   const [newUserData, setNewUserData] = useState(null);
@@ -108,7 +109,11 @@ const NewUserView = () => {
       <span className="text-sm text-gray-800 flex-1 ">{value || "N/A"}</span>
     </div>
   );
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
       <div className="container mx-auto px-2 py-4">

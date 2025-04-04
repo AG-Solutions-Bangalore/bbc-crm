@@ -15,6 +15,7 @@ import {
 
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 
 const ShareUser = () => {
@@ -49,7 +50,6 @@ const ShareUser = () => {
       }
     };
     fetchShareUser();
-    setLoading(false);
   }, []);
 
   const columns = useMemo(
@@ -112,7 +112,11 @@ const ShareUser = () => {
   };
 
   const data = useMemo(() => (shareData ? shareData : []), [shareData]);
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
        <div className="container mx-auto mt-5 ">

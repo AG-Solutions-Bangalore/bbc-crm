@@ -23,6 +23,7 @@ import {
  
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const ActiveUser = () => {
   const [activeUserData, setActiveUserData] = useState(null);
@@ -57,7 +58,7 @@ const ActiveUser = () => {
       }
     };
     fetchActiveUser();
-    setLoading(false);
+   
   }, []);
 
   const onUpdateActive = useCallback(async (userId) => {
@@ -210,7 +211,11 @@ const ActiveUser = () => {
     () => (activeUserData ? activeUserData : []),
     [activeUserData]
   );
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
      
