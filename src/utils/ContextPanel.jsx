@@ -7,7 +7,7 @@ export const ContextPanel = createContext();
 
 const AppProvider = ({ children }) => {
   const [isPanelUp, setIsPanelUp] = useState(true);
-
+  const userAdminType = localStorage.getItem("admin-type")
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -79,7 +79,7 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <ContextPanel.Provider value={{ isPanelUp, setIsPanelUp }}>
+    <ContextPanel.Provider value={{ isPanelUp, setIsPanelUp,userAdminType }}>
       {children}
     </ContextPanel.Provider>
   );

@@ -49,7 +49,7 @@ const App = () => {
   return (
     <>
       <ToastContainer />
-      {/* <DisabledRightClick/> */}
+      <DisabledRightClick/>
       <Routes>
         <Route path="/login" element={<SignIn />} />
         <Route path="/register" element={<SIgnUp />} />

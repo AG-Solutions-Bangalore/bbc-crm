@@ -14,13 +14,28 @@ import {
  
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  CircularProgress
+} from "@mui/material";
+import { toast } from "react-toastify";
+import PageLoader from "../../components/PageLoader";
+
 
 const MobileUser = () => {
   const [mobileUserData, setMobileUserData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isPanelUp } = useContext(ContextPanel);
+  const { isPanelUp ,userAdminType} = useContext(ContextPanel);
   const navigate = useNavigate();
-
+const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [contactIdToDelete, setContactIdToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   useEffect(() => {
     const fetchMobileUser = async () => {
       try {
@@ -47,8 +62,54 @@ const MobileUser = () => {
       }
     };
     fetchMobileUser();
-    setLoading(false);
+  
   }, []);
+
+  const handleDeleteClick = (userId) => {
+    setContactIdToDelete(userId);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setDeleteLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `${BASE_URL}/api/panel-delete-contact/${contactIdToDelete}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+     
+      toast.success(response.data.msg || "Mobile User deleted successfully");
+      
+    
+      const fetchResponse = await axios.get(
+        `${BASE_URL}/api/panel-fetch-mobile-profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMobileUserData(fetchResponse?.data?.new_user);
+    } catch (error) {
+      console.error("Error deleting mobile user", error);
+      toast.error(error.response?.data?.message || "Failed to delete mobile user");
+    } finally {
+      setDeleteLoading(false);
+      setOpenDeleteDialog(false);
+      setContactIdToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setOpenDeleteDialog(false);
+    setContactIdToDelete(null);
+  };
   const columns = useMemo(
     () => [
       {
@@ -102,6 +163,29 @@ const MobileUser = () => {
           sort: false,
         },
       },
+      ...(userAdminType === "superadmin"
+        ? [
+      {
+              name: "id",
+              label: "Action",
+              options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (userId) => {
+                  return (
+                    <div>
+                      <TrashIcon 
+                        title="Delete Mobile User" 
+                        className="h-5 w-5 text-red-400 hover:text-red-800 cursor-pointer" 
+                        onClick={() => handleDeleteClick(userId)}
+                      />
+                    </div>
+                  );
+                },
+              },
+            },
+          ]
+          : []),
     ],
     [mobileUserData]
   );
@@ -123,6 +207,11 @@ const MobileUser = () => {
     [mobileUserData]
   );
 
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
        <div className="container mx-auto mt-5">
@@ -133,16 +222,47 @@ const MobileUser = () => {
                        </Typography>
                      </CardHeader>
                      <CardBody className="p-0">
+                        
                      <MUIDataTable
           // title={"Mobile User List"}
           data={data}
           columns={columns}
           options={options}
         />
+      
                      </CardBody>
                    </Card>
                  </div>
-     
+      {/* Delete Confirmation Dialog */}
+           <Dialog
+             open={openDeleteDialog}
+             onClose={handleDeleteCancel}
+             aria-labelledby="alert-dialog-title"
+             aria-describedby="alert-dialog-description"
+           >
+             <DialogTitle id="alert-dialog-title">
+               {"Confirm Delete"}
+             </DialogTitle>
+             <DialogContent>
+               <DialogContentText id="alert-dialog-description">
+                 Are you sure you want to delete this mobile user? This action cannot be undone.
+               </DialogContentText>
+             </DialogContent>
+             <DialogActions>
+               <Button onClick={handleDeleteCancel} color="primary" disabled={deleteLoading}>
+                 Cancel
+               </Button>
+               <Button 
+                 onClick={handleDeleteConfirm} 
+                 color="error" 
+                 autoFocus
+                 disabled={deleteLoading}
+                 startIcon={deleteLoading ? <CircularProgress size={20} color="inherit" /> : null}
+               >
+                 {deleteLoading ? 'Deleting...' : 'Delete'}
+               </Button>
+             </DialogActions>
+           </Dialog>
     </Layout>
   );
 };

@@ -21,6 +21,7 @@ const ProtectedRoute = ({ element }) => {
     "/about",
     "/portfolio",
     "/enquiry",
+    "/mission-vision",
   ];
 
   if (adminType === "admin" || adminType === "superadmin") {
@@ -43,3 +44,5 @@ const ProtectedRoute = ({ element }) => {
 };
 
 export default ProtectedRoute;
+
+

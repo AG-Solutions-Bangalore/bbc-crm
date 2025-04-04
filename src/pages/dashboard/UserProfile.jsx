@@ -32,6 +32,7 @@ import { CiLocationOn, CiShoppingTag } from "react-icons/ci";
 import { FaLocationDot } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const UserProfile = () => {
   const [userProfileData, setUserProfileData] = useState({
@@ -88,7 +89,6 @@ const UserProfile = () => {
       }
     };
     fetchUserProfile();
-    setLoading(false);
   }, []);
 
 
@@ -151,7 +151,11 @@ const UserProfile = () => {
   const handleHome = () => {
     navigate("/home");
   };
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
      

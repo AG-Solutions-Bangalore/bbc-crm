@@ -23,6 +23,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { ButtonConfig } from "../../config/ButtonConfig";
+import PageLoader from "../../components/PageLoader";
 
 const MissionVission = () => {
   const [loading, setLoading] = useState(false);
@@ -171,7 +172,11 @@ const MissionVission = () => {
       setLoading(false);
     }
   };
-
+  if(loading){
+    return (
+      <PageLoader/>
+  )
+  }
   return (
     <Layout>
       <div className="container mx-auto mt-5">
