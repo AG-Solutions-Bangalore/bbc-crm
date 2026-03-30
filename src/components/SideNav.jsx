@@ -539,7 +539,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
       </div>
       <div className="absolute bottom-0 w-full border-t rounded-b-lg border-gray-700 py-4 px-4 bg-gradient-to-t from-gray-900 to-gray-900">
         <div className="w-full text-center text-sm text-gray-400">
-          <p className="animate-pulse">Updated On:April 04 2025 </p>
+          <p className="animate-pulse">Updated On : March 30 2026 </p>
         </div>
       </div>
     </aside>
