@@ -44,6 +44,8 @@ const ChangePassword = lazy(() => import("./pages/profile/ChangePassword"));
 const Feedback = lazy(() => import("./pages/users/Feedback"));
 const Contact = lazy(() => import("./pages/users/Contact"));
 const MissionVission = lazy(() => import("./pages/website/MissionVission"));
+const ActiveMeeting = lazy(() => import("./pages/meeting/ActiveMeeting"));
+const InactiveMeeting = lazy(() => import("./pages/meeting/InactiveMeeting"));
 
 const App = () => {
   return (
@@ -144,6 +146,30 @@ const App = () => {
               element={
                 <Suspense fallback={<Loader />}>
                   <InactiveUser />
+                </Suspense>
+              }
+            />
+          }
+        />
+        <Route
+          path="/active-meeting"
+          element={
+            <ProtectedRoute
+              element={
+                <Suspense fallback={<Loader />}>
+                  <ActiveMeeting />
+                </Suspense>
+              }
+            />
+          }
+        />
+        <Route
+          path="/inactive-meeting"
+          element={
+            <ProtectedRoute
+              element={
+                <Suspense fallback={<Loader />}>
+                  <InactiveMeeting />
                 </Suspense>
               }
             />

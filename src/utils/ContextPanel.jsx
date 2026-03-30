@@ -7,7 +7,7 @@ export const ContextPanel = createContext();
 
 const AppProvider = ({ children }) => {
   const [isPanelUp, setIsPanelUp] = useState(true);
-  const userAdminType = localStorage.getItem("admin-type")
+  const userAdminType = localStorage.getItem("admin-type");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,6 +55,9 @@ const AppProvider = ({ children }) => {
           "/share-view",
           "/download",
           "/change-password",
+          "/active-meeting",
+          "/inactive-meeting",
+          "/lead",
         ];
         if (allowedPaths.includes(currentPath)) {
           navigate(currentPath);
@@ -79,7 +82,7 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <ContextPanel.Provider value={{ isPanelUp, setIsPanelUp,userAdminType }}>
+    <ContextPanel.Provider value={{ isPanelUp, setIsPanelUp, userAdminType }}>
       {children}
     </ContextPanel.Provider>
   );
