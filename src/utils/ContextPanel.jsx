@@ -57,7 +57,7 @@ const AppProvider = ({ children }) => {
           "/change-password",
           "/active-meeting",
           "/inactive-meeting",
-          "/lead",
+          "/lead-list",
         ];
         if (allowedPaths.includes(currentPath)) {
           navigate(currentPath);

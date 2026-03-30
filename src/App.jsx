@@ -46,6 +46,7 @@ const Contact = lazy(() => import("./pages/users/Contact"));
 const MissionVission = lazy(() => import("./pages/website/MissionVission"));
 const ActiveMeeting = lazy(() => import("./pages/meeting/ActiveMeeting"));
 const InactiveMeeting = lazy(() => import("./pages/meeting/InactiveMeeting"));
+const LeadList = lazy(() => import("./pages/lead/LeadList"));
 
 const App = () => {
   return (
@@ -170,6 +171,18 @@ const App = () => {
               element={
                 <Suspense fallback={<Loader />}>
                   <InactiveMeeting />
+                </Suspense>
+              }
+            />
+          }
+        />
+        <Route
+          path="/lead-list"
+          element={
+            <ProtectedRoute
+              element={
+                <Suspense fallback={<Loader />}>
+                  <LeadList />
                 </Suspense>
               }
             />

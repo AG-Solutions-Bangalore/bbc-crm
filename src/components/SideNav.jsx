@@ -173,7 +173,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
   // Bottom menu items
   const menuItems3 = [
     {
-      to: "/lead",
+      to: "/lead-list",
       icon: <MdOutlineMoney className="w-5 h-5 text-inherit" />,
       text: "Lead",
       roles: ["superadmin"],
