@@ -176,7 +176,7 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
       to: "/lead-list",
       icon: <MdOutlineMoney className="w-5 h-5 text-inherit" />,
       text: "Lead",
-      roles: ["superadmin"],
+      roles: ["admin", "superadmin"],
     },
     {
       to: "/feedback",
@@ -270,9 +270,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
   return (
     <aside
       ref={sidenavRef}
-      className={`${sidebarStyle} ${
-        openSideNav ? "translate-x-0" : "-translate-x-80"
-      } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-all duration-300 ease-in-out xl:translate-x-0 border border-blue-gray-100/30 backdrop-blur-sm`}
+      className={`${sidebarStyle} ${openSideNav ? "translate-x-0" : "-translate-x-80"
+        } fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-all duration-300 ease-in-out xl:translate-x-0 border border-blue-gray-100/30 backdrop-blur-sm`}
       style={{
         boxShadow:
           "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
@@ -313,9 +312,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   <Button
                     variant={isActive ? "gradient" : "text"}
                     color={isActive ? `${ButtonConfig.sidebarColor}` : "white"}
-                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${
-                      isActive ? "shadow-md" : ""
-                    } transition-all duration-300 hover:bg-pink-500/20`}
+                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${isActive ? "shadow-md" : ""
+                      } transition-all duration-300 hover:bg-pink-500/20`}
                     fullWidth
                   >
                     <span className={`${isActive ? "text-white" : ""}`}>
@@ -323,9 +321,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                     </span>
                     <Typography
                       color="inherit"
-                      className={`font-medium capitalize ${
-                        isActive ? "text-white" : "text-gray-300"
-                      } transition-colors duration-300`}
+                      className={`font-medium capitalize ${isActive ? "text-white" : "text-gray-300"
+                        } transition-colors duration-300`}
                     >
                       {item.text}
                     </Typography>
@@ -344,9 +341,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   color={
                     openUsersMenu ? `${ButtonConfig.sidebarColor}` : "white"
                   }
-                  className={`flex items-center justify-between px-4 py-2.5 capitalize transition-all duration-300 hover:bg-pink-500/20 ${
-                    openUsersMenu ? "shadow-md" : ""
-                  }`}
+                  className={`flex items-center justify-between px-4 py-2.5 capitalize transition-all duration-300 hover:bg-pink-500/20 ${openUsersMenu ? "shadow-md" : ""
+                    }`}
                   fullWidth
                   onClick={handleUsersButtonClick}
                 >
@@ -354,25 +350,22 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                     <UserPlusIcon className="w-5 h-5 text-inherit" />
                     <Typography
                       color="inherit"
-                      className={`font-medium capitalize ${
-                        openUsersMenu ? "text-white" : "text-gray-300"
-                      } transition-colors duration-300`}
+                      className={`font-medium capitalize ${openUsersMenu ? "text-white" : "text-gray-300"
+                        } transition-colors duration-300`}
                     >
                       Users
                     </Typography>
                   </div>
                   <ChevronDownIcon
-                    className={`w-5 h-5 transition-transform duration-300 ${
-                      openUsersMenu ? "rotate-180" : ""
-                    }`}
+                    className={`w-5 h-5 transition-transform duration-300 ${openUsersMenu ? "rotate-180" : ""
+                      }`}
                   />
                 </Button>
 
                 {/* Submenu with smooth animation */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openUsersMenu ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openUsersMenu ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
                 >
                   <ul className="ml-6 mt-1 border-l border-gray-700/50 pl-2">
                     {getFilteredMenuItems1().map((item) => (
@@ -389,9 +382,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                                   ? `${ButtonConfig.sidebarColor}`
                                   : "white"
                               }
-                              className={`flex items-center gap-4 px-4 py-2 text-sm capitalize ${
-                                isActive ? "shadow-md" : ""
-                              } transition-all duration-300 hover:bg-pink-500/20`}
+                              className={`flex items-center gap-4 px-4 py-2 text-sm capitalize ${isActive ? "shadow-md" : ""
+                                } transition-all duration-300 hover:bg-pink-500/20`}
                               fullWidth
                             >
                               <span
@@ -401,9 +393,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                               </span>
                               <Typography
                                 color="inherit"
-                                className={`font-medium capitalize ${
-                                  isActive ? "text-white" : "text-gray-300"
-                                } transition-colors duration-300`}
+                                className={`font-medium capitalize ${isActive ? "text-white" : "text-gray-300"
+                                  } transition-colors duration-300`}
                               >
                                 {item.text}
                               </Typography>
@@ -427,9 +418,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   color={
                     openMeetingsMenu ? `${ButtonConfig.sidebarColor}` : "white"
                   }
-                  className={`flex items-center justify-between px-4 py-2.5 capitalize transition-all duration-300 hover:bg-pink-500/20 ${
-                    openMeetingsMenu ? "shadow-md" : ""
-                  }`}
+                  className={`flex items-center justify-between px-4 py-2.5 capitalize transition-all duration-300 hover:bg-pink-500/20 ${openMeetingsMenu ? "shadow-md" : ""
+                    }`}
                   fullWidth
                   onClick={handleMeetingsButtonClick}
                 >
@@ -437,27 +427,24 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                     <MdOutlineGroups className="w-5 h-5 text-inherit" />
                     <Typography
                       color="inherit"
-                      className={`font-medium capitalize ${
-                        openMeetingsMenu ? "text-white" : "text-gray-300"
-                      } transition-colors duration-300`}
+                      className={`font-medium capitalize ${openMeetingsMenu ? "text-white" : "text-gray-300"
+                        } transition-colors duration-300`}
                     >
                       Meetings
                     </Typography>
                   </div>
                   <ChevronDownIcon
-                    className={`w-5 h-5 transition-transform duration-300 ${
-                      openMeetingsMenu ? "rotate-180" : ""
-                    }`}
+                    className={`w-5 h-5 transition-transform duration-300 ${openMeetingsMenu ? "rotate-180" : ""
+                      }`}
                   />
                 </Button>
 
                 {/* Submenu with smooth animation */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openMeetingsMenu
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openMeetingsMenu
                       ? "max-h-96 opacity-100"
                       : "max-h-0 opacity-0"
-                  }`}
+                    }`}
                 >
                   <ul className="ml-6 mt-1 border-l border-gray-700/50 pl-2">
                     {getFilteredMenuItems2().map((item) => (
@@ -474,9 +461,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                                   ? `${ButtonConfig.sidebarColor}`
                                   : "white"
                               }
-                              className={`flex items-center gap-4 px-4 py-2 text-sm capitalize ${
-                                isActive ? "shadow-md" : ""
-                              } transition-all duration-300 hover:bg-pink-500/20`}
+                              className={`flex items-center gap-4 px-4 py-2 text-sm capitalize ${isActive ? "shadow-md" : ""
+                                } transition-all duration-300 hover:bg-pink-500/20`}
                               fullWidth
                             >
                               <span
@@ -486,9 +472,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                               </span>
                               <Typography
                                 color="inherit"
-                                className={`font-medium capitalize ${
-                                  isActive ? "text-white" : "text-gray-300"
-                                } transition-colors duration-300`}
+                                className={`font-medium capitalize ${isActive ? "text-white" : "text-gray-300"
+                                  } transition-colors duration-300`}
                               >
                                 {item.text}
                               </Typography>
@@ -514,9 +499,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                   <Button
                     variant={isActive ? "gradient" : "text"}
                     color={isActive ? `${ButtonConfig.sidebarColor}` : "white"}
-                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${
-                      isActive ? "shadow-md" : ""
-                    } transition-all duration-300 hover:bg-pink-500/20`}
+                    className={`flex items-center gap-4 px-4 py-2.5 text-sm md:text-base capitalize ${isActive ? "shadow-md" : ""
+                      } transition-all duration-300 hover:bg-pink-500/20`}
                     fullWidth
                   >
                     <span className={`${isActive ? "text-white" : ""}`}>
@@ -524,9 +508,8 @@ const SideNav = ({ openSideNav, setOpenSideNav }) => {
                     </span>
                     <Typography
                       color="inherit"
-                      className={`font-medium capitalize ${
-                        isActive ? "text-white" : "text-gray-300"
-                      } transition-colors duration-300`}
+                      className={`font-medium capitalize ${isActive ? "text-white" : "text-gray-300"
+                        } transition-colors duration-300`}
                     >
                       {item.text}
                     </Typography>
