@@ -92,7 +92,7 @@ const LeadList = () => {
         options: {
           filter: true,
           sort: true,
-          customBodyRender: (value) => value?.name || "N/A",
+          customBodyRender: (value) => value?.name || "-",
         },
       },
       {
@@ -101,7 +101,7 @@ const LeadList = () => {
         options: {
           filter: true,
           sort: true,
-          customBodyRender: (value) => value?.name || "N/A",
+          customBodyRender: (value) => value?.name || "-",
         },
       },
       {
@@ -110,7 +110,34 @@ const LeadList = () => {
         options: {
           filter: true,
           sort: true,
-          customBodyRender: (value) => value || "N/A",
+          customBodyRender: (value) => value || "-",
+        },
+      },
+      {
+        name: "lead_status",
+        label: "Status",
+        options: {
+          filter: true,
+          sort: true,
+          customBodyRender: (value) => value || "-",
+        },
+      },
+      {
+        name: "created_by",
+        label: "Created By",
+        options: {
+          filter: true,
+          sort: true,
+          customBodyRender: (value) => value || "-",
+        },
+      },
+      {
+        name: "updated_by",
+        label: "Updated By",
+        options: {
+          filter: true,
+          sort: true,
+          customBodyRender: (value) => value || "-",
         },
       },
       {
