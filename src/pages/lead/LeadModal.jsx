@@ -190,6 +190,7 @@ const LeadModal = ({ isOpen, handleClose, leadId, onSuccess }) => {
                 <Input
                   type="date"
                   name="lead_date"
+                  max={moment().format("YYYY-MM-DD")}
                   value={formData.lead_date}
                   onChange={handleChange}
                   className={`!border-t-blue-gray-200 focus:!border-t-gray-900 ${errors.lead_date ? "border-red-500" : ""}`}
@@ -219,11 +220,13 @@ const LeadModal = ({ isOpen, handleClose, leadId, onSuccess }) => {
                   className={`w-full border ${errors.lead_from_id ? "border-red-500" : "border-blue-gray-200"} rounded-md p-2 focus:border-gray-900 outline-none bg-transparent`}
                 >
                   <option value="">Select Member</option>
-                  {members.map((member) => (
-                    <option key={member.id} value={member.id}>
-                      {member.name}
-                    </option>
-                  ))}
+                  {members
+                    .filter((member) => member.id !== formData.lead_to_id)
+                    .map((member) => (
+                      <option key={member.id} value={member.id}>
+                        {member.name}
+                      </option>
+                    ))}
                 </select>
                 {errors.lead_from_id && (
                   <Typography variant="small" color="red" className="mt-1 font-normal text-[11px]">
@@ -247,11 +250,13 @@ const LeadModal = ({ isOpen, handleClose, leadId, onSuccess }) => {
                   className={`w-full border ${errors.lead_to_id ? "border-red-500" : "border-blue-gray-200"} rounded-md p-2 focus:border-gray-900 outline-none bg-transparent`}
                 >
                   <option value="">Select Member</option>
-                  {members.map((member) => (
-                    <option key={member.id} value={member.id}>
-                      {member.name}
-                    </option>
-                  ))}
+                  {members
+                    .filter((member) => member.id !== formData.lead_from_id)
+                    .map((member) => (
+                      <option key={member.id} value={member.id}>
+                        {member.name}
+                      </option>
+                    ))}
                 </select>
                 {errors.lead_to_id && (
                   <Typography variant="small" color="red" className="mt-1 font-normal text-[11px]">
